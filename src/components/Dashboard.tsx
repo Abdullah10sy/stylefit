@@ -64,7 +64,7 @@ export function Dashboard() {
             <div className="body-type-grid">
               {['slim', 'medium', 'chubby'].map((bt) => (
                 <div key={bt} className={`body-card ${state.bodyType === bt ? 'selected' : ''}`} onClick={() => selectBodyType(bt)}>
-                  <div style={{fontSize: '2rem', marginBottom: '8px'}}>{bt === 'slim' ? '🏃‍♂️' : bt === 'medium' ? '🏋️‍♂️' : '💪'}</div>
+                  <div style={{fontSize: '2rem', marginBottom: '8px'}}>{bt === 'slim' ? '🐶' : bt === 'medium' ? '🦁' : '🐼'}</div>
                   <span className="body-name">{bt.charAt(0).toUpperCase() + bt.slice(1)}</span>
                 </div>
               ))}

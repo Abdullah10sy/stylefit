@@ -2,22 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useStore } from "@/app/store";
 
-const AI_REPLIES: any = {
-  interview: "For a job interview, opt for a well-fitted suit in navy or charcoal. A crisp white shirt, dark trousers, and polished oxfords project confidence. Brands like Van Heusen, Raymond, and Arrow have great options in India. 💼",
-  slim: "For slim body types, layering adds visual volume! Horizontal stripes, wide-leg trousers, and structured blazers are your best friends. Avoid super-tight fits head-to-toe — some looser pieces balance your silhouette beautifully. 👕",
-  dark: "Deep jewel tones like emerald, cobalt, and burgundy complement dark skin tones stunningly. Warm earthy tones — terracotta, mustard — also look incredible. Bright whites and bold patterns work brilliantly too! 🎨",
-  chinos: "Chinos are incredibly versatile! Derby shoes or loafers work for smart-casual, while clean white sneakers keep it relaxed. Chelsea boots elevate the look for evenings. ✦",
-  default: "Great question! Fashion is all about finding what makes you feel confident. For your body type, focus on fit above everything — well-tailored clothes always look better than expensive but ill-fitting ones. ✦"
-};
 
-function getAIReply(msg: string) {
-  const m = msg.toLowerCase();
-  if (m.includes('interview') || m.includes('job') || m.includes('office')) return AI_REPLIES.interview;
-  if (m.includes('slim') || m.includes('thin') || m.includes('lean')) return AI_REPLIES.slim;
-  if (m.includes('color') || m.includes('colour') || m.includes('dark skin')) return AI_REPLIES.dark;
-  if (m.includes('chino') || m.includes('shoes') || m.includes('footwear')) return AI_REPLIES.chinos;
-  return AI_REPLIES.default;
-}
 
 export function Chat() {
   const { state } = useStore();
@@ -33,16 +18,28 @@ export function Chat() {
     msgsEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  const sendMessage = (text: string) => {
+  const sendMessage = async (text: string) => {
     if (!text.trim()) return;
     setMessages(prev => [...prev, { role: 'user', text }]);
     setInput("");
     setIsTyping(true);
 
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: text,
+          context: state.bodyType ? `Body Type: ${state.bodyType}, Selected Categories: ${Array.from(state.categories).join(', ')}` : ''
+        })
+      });
+      const data = await res.json();
+      setMessages(prev => [...prev, { role: 'ai', text: data.reply }]);
+    } catch (e) {
+      setMessages(prev => [...prev, { role: 'ai', text: "Network Error: Could not reach the stylist API." }]);
+    } finally {
       setIsTyping(false);
-      setMessages(prev => [...prev, { role: 'ai', text: getAIReply(text) }]);
-    }, 1200 + Math.random() * 600);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

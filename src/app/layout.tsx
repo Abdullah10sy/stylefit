@@ -16,7 +16,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "StyleFit AI — Outfits That Fit Your Body, Perfectly",
+  title: "StyleAi — Outfits That Fit Your Body, Perfectly",
   description: "Your personal AI stylist that crafts outfits perfectly tailored to your unique body type and height.",
 };
 

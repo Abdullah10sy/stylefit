@@ -13,30 +13,31 @@ export function Hero() {
         <div className="hero-orb orb-3"></div>
         <div className="hero-grid"></div>
         {/* Add particles loop */}
-        {Array.from({length: 12}).map((_, i) => (
+        {Array.from({ length: 12 }).map((_, i) => (
           <div key={i} className="particle" style={{
-            width: `${4+Math.random()*8}px`,
-            height: `${4+Math.random()*8}px`,
-            background: ['var(--emerald)','var(--terra)','var(--gold)'][Math.floor(Math.random()*3)],
-            left: `${Math.random()*100}%`,
-            animationDuration: `${8+Math.random()*12}s`,
-            animationDelay: `${Math.random()*8}s`,
+            width: `${4 + Math.random() * 8}px`,
+            height: `${4 + Math.random() * 8}px`,
+            background: ['var(--emerald)', 'var(--terra)', 'var(--gold)'][Math.floor(Math.random() * 3)],
+            left: `${Math.random() * 100}%`,
+            animationDuration: `${8 + Math.random() * 12}s`,
+            animationDelay: `${Math.random() * 8}s`,
             opacity: 0.3
           }}></div>
         ))}
       </div>
       <div className="hero-content">
+        <br />
         <div className="hero-badge">✦ AI-Powered Personal Styling</div>
-        <h1 className="hero-title">Outfits That Fit<br/><em>Your Body,</em><br/><span className="title-outline">Perfectly.</span></h1>
+        <h1 className="hero-title">Outfits That Fit<br /><em>Your Body,</em><br /><span className="title-outline">Perfectly.</span></h1>
         <p className="hero-sub">Stop guessing what to wear. Our AI analyzes your body type and height to recommend outfits that flatter, elevate, and express who you truly are.</p>
         <div className="hero-cta">
           <button className="btn-hero" onClick={() => showSection('login')}>
-            <span>Start with Phone</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <span>Get Started</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
           </button>
-          <button className="btn-hero-ghost" onClick={() => {}}>How it works ↗</button>
+          <button className="btn-hero-ghost" onClick={() => { }}>How it works ↗</button>
         </div>
-        <p className="hero-note">No email. No password. Just your phone.</p>
+        <p className="hero-note">Join in seconds with Google or Email.</p>
         <div className="hero-stats">
           <div className="stat"><span className="stat-num">50K+</span><span className="stat-label">Styled Users</span></div>
           <div className="stat-divider"></div>
@@ -48,15 +49,15 @@ export function Hero() {
       <div className="hero-visual">
         <div className="fashion-cards">
           <div className="fashion-card fc-1">
-            <div className="fc-img" style={{background: 'linear-gradient(135deg,#0D5C4B22,#D9770622)'}}><span style={{fontSize: '2.8rem'}}>👔</span></div>
+            <div className="fc-img" style={{ background: 'linear-gradient(135deg,#0D5C4B22,#D9770622)' }}><span style={{ fontSize: '2.8rem' }}>👔</span></div>
             <div className="fc-info"><span className="fc-tag">Casual</span><span className="fc-name">Relaxed Linen Set</span></div>
           </div>
           <div className="fashion-card fc-2">
-            <div className="fc-img" style={{background: 'linear-gradient(135deg,#D9770622,#F1C43D22)'}}><span style={{fontSize: '2.8rem'}}>🧥</span></div>
+            <div className="fc-img" style={{ background: 'linear-gradient(135deg,#D9770622,#F1C43D22)' }}><span style={{ fontSize: '2.8rem' }}>🧥</span></div>
             <div className="fc-info"><span className="fc-tag">Formal</span><span className="fc-name">Power Suit Look</span></div>
           </div>
           <div className="fashion-card fc-3">
-            <div className="fc-img" style={{background: 'linear-gradient(135deg,#F1C43D22,#0D5C4B22)'}}><span style={{fontSize: '2.8rem'}}>✨</span></div>
+            <div className="fc-img" style={{ background: 'linear-gradient(135deg,#F1C43D22,#0D5C4B22)' }}><span style={{ fontSize: '2.8rem' }}>✨</span></div>
             <div className="fc-info"><span className="fc-tag">Party</span><span className="fc-name">Evening Glam</span></div>
           </div>
         </div>
@@ -70,22 +71,22 @@ export function Footer() {
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-brand">
-          <div className="logo"><span className="logo-icon">✦</span><span>StyleFit <em>AI</em></span></div>
+          <div className="logo"><span className="logo-icon">✦</span><span>StyleAi</span></div>
           <p>Dressing well is a form of good manners. We make it effortless.</p>
           <div className="social-links">
-            <a href="#" className="social-link">𝕏</a>
-            <a href="#" className="social-link">in</a>
-            <a href="#" className="social-link">📷</a>
+            <a href="https://x.com/real_styleai?s=21&t=X3X3X3X3X3X3X3X3X3X3X3X3X3X3X3X3" className="social-link">𝕏</a>
+            <a href="" className="social-link">📌</a>
+            <a href="https://www.instagram.com/real_styleai?igsh=MWMwNWpsOWw1Znc0Yg==" className="social-link">📷</a>
           </div>
         </div>
         <div className="footer-links">
-          <div className="footer-col"><h4>Product</h4><a href="#">How It Works</a><a href="#">Style Guide</a><a href="#">Categories</a><a href="#">Premium</a></div>
-          <div className="footer-col"><h4>Company</h4><a href="#">About Us</a><a href="#">Blog</a><a href="#">Careers</a><a href="#">Press</a></div>
-          <div className="footer-col"><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Cookie Policy</a><a href="#">Contact</a></div>
+          <div className="footer-col"><h4>Product</h4><a href="/how-it-works">How It Works</a><a href="/style-guide">Style Guide</a><a href="/categories">Categories</a><a href="/premium">Premium</a></div>
+          <div className="footer-col"><h4>Company</h4><a href="/about">About Us</a><a href="/blog">Blog</a><a href="/careers">Careers</a><a href="/press">Press</a></div>
+          <div className="footer-col"><h4>Legal</h4><a href="/privacy-policy">Privacy Policy</a><a href="/terms">Terms</a><a href="/cookie-policy">Cookie Policy</a><a href="/contact">Contact</a></div>
         </div>
       </div>
       <div className="footer-bottom">
-        <p>© 2025 StyleFit AI. All rights reserved.</p>
+        <p>© 2025 StyleAi. All rights reserved.Abuu Pvt Lmt</p>
         <p>Made with ✦ for fashion lovers everywhere</p>
       </div>
     </footer>

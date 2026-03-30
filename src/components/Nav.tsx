@@ -23,7 +23,7 @@ export function Nav() {
       <div className="nav-inner">
         <div className="logo" onClick={() => showSection('hero')}>
           <span className="logo-icon">✦</span>
-          <span>StyleFit <em>AI</em></span>
+          <span>StyleAi</span>
         </div>
         <div className="nav-links" id="nav-links">
           <button className="nav-link" onClick={() => showSection('hero')}>Home</button>
@@ -44,7 +44,7 @@ export function Nav() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                 Search outfits...
               </button>
-              <button className="cart-nav-btn" onClick={() => {}}>
+              <button className="cart-nav-btn" onClick={() => showSection('cart')}>
                 🛒 Cart
                 {state.cart.length > 0 && <span className="cart-badge">{state.cart.reduce((a,c)=>a+(c.qty||1),0)}</span>}
               </button>
@@ -61,7 +61,7 @@ export function Nav() {
           )}
           {loggedIn && (
             <div className="nav-user">
-              <span className="user-phone">{state.phone}</span>
+              <span className="user-email" style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--ink)' }}>{state.user.email}</span>
               <button className="btn-ghost" onClick={logout}>Sign Out</button>
             </div>
           )}
