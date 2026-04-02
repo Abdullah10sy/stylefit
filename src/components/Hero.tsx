@@ -35,7 +35,6 @@ export function Hero() {
             <span>Get Started</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
           </button>
-          <button className="btn-hero-ghost" onClick={() => { }}>How it works ↗</button>
         </div>
         <p className="hero-note">Join in seconds with Google or Email.</p>
         <div className="hero-stats">
@@ -86,7 +85,7 @@ export function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>© 2025 StyleAi. All rights reserved.Abuu Pvt Lmt</p>
+        <p>© 2026 StyleAi. All rights reserved.Abuu Pvt Lmt</p>
         <p>Made with ✦ for fashion lovers everywhere</p>
       </div>
     </footer>

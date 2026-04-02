@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useStore } from "@/app/store";
 import { Outfit, CAT_META } from "@/lib/data";
 
@@ -54,15 +54,56 @@ export function OutfitCard({ outfit, index, isSaved, isCompareSelected }: { outf
     localStorage.setItem("sf_cart", JSON.stringify(newCart));
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const openModal = () => {
-    // simplified modal for now, omitted for brevity but can add an overlay
-    toast(`👀 Viewing ${outfit.name}`);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsModalOpen(false);
   };
 
   return (
-    <div className={`outfit-card ${isCompareSelected ? "compare-selected" : ""}`} onClick={openModal}>
-      <div className="card-image" style={{ background: outfit.bg || "linear-gradient(135deg,#e8f5f0,#d0eae0)" }}>
-        <div className="card-image-emoji">{outfit.emoji || "👗"}</div>
+    <>
+      {isModalOpen && outfit.image && (
+        <div 
+          style={{
+            position: 'fixed', inset: 0, zIndex: 9999, 
+            background: 'rgba(0,0,0,0.85)', display: 'flex', 
+            justifyContent: 'center', alignItems: 'center', padding: '20px', cursor: 'zoom-out'
+          }}
+          onClick={closeModal}
+        >
+          <div style={{ position: 'relative', maxWidth: '100%', maxHeight: '100%' }}>
+            <img 
+              src={outfit.image} 
+              alt={outfit.name} 
+              style={{ maxWidth: '100%', maxHeight: '90vh', objectFit: 'contain', borderRadius: '12px', boxShadow: '0 10px 40px rgba(0,0,0,0.5)', cursor: 'default' }}
+              onClick={(e) => e.stopPropagation()} 
+            />
+            <button 
+              onClick={closeModal}
+              style={{
+                position: 'absolute', top: '-15px', right: '-15px', 
+                background: 'white', color: 'black', border: 'none', 
+                borderRadius: '50%', width: '36px', height: '36px', 
+                cursor: 'pointer', fontSize: '1.2rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10000
+              }}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+      <div className={`outfit-card ${isCompareSelected ? "compare-selected" : ""}`} onClick={openModal}>
+      <div className="card-image" style={{ background: outfit.bg || "linear-gradient(135deg,#e8f5f0,#d0eae0)", position: "relative" }}>
+        {outfit.image ? (
+          <img src={outfit.image} alt={outfit.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", position: "absolute", inset: 0 }} />
+        ) : (
+          <div className="card-image-emoji">{outfit.emoji || "👗"}</div>
+        )}
         <div className="card-actions">
           <button className="card-action-btn" onClick={toggleSave} title="Save look">
             {isSaved ? "❤️" : "🤍"}
@@ -92,17 +133,39 @@ export function OutfitCard({ outfit, index, isSaved, isCompareSelected }: { outf
         </div>
       </div>
     </div>
+    </>
   );
 }
 
 export function Results() {
   const { state, setState } = useStore();
+  const [compareModalOpen, setCompareModalOpen] = useState(false);
+
+  const getOccasion = (cat: string) => {
+    switch(cat) {
+      case 'formal': return 'Perfect for key meetings, weddings, and upscale events.';
+      case 'party': return 'Ideal for night outs, evening dates, and exclusive lounges.';
+      case 'sporty': return 'Best for gym sessions, outdoor runs, and active weekends.';
+      case 'streetwear': return 'City explorations, concerts, and casual hangouts.';
+      case 'ethnic': return 'Festivals, traditional ceremonies, and cultural events.';
+      case 'casual': default: return 'Great for weekend brunches, casual Fridays, and errands.';
+    }
+  };
+
+  const getEnvironment = (cat: string) => {
+    switch(cat) {
+      case 'formal': return 'Climate-controlled indoors, prestigious venues.';
+      case 'party': return 'Dimly lit interiors, moody lighting.';
+      case 'sporty': return 'Outdoors, breathable for high activity.';
+      case 'streetwear': return 'Urban streets, versatile for shifting weather.';
+      case 'ethnic': return 'Indoors or outdoors depending on fabric weight.';
+      case 'casual': default: return 'All-purpose, comfortable in mild weather.';
+    }
+  };
 
   const doCompare = () => {
-    // simplified compare modal pop up
     if (state.compareList.length < 2) return;
-    const [a, b] = [state.currentOutfits[state.compareList[0]], state.currentOutfits[state.compareList[1]]];
-    alert(`Comparing: ${a.name} vs ${b.name}`);
+    setCompareModalOpen(true);
   };
 
   if (state.activeSection !== "results") return null;
@@ -129,6 +192,72 @@ export function Results() {
             </div>
             <button className="btn-do-compare" onClick={doCompare} disabled={state.compareList.length < 2}>Compare Now</button>
             <button className="btn-text" onClick={() => setState(s => ({ ...s, compareMode: false, compareList: [] }))}>Cancel</button>
+          </div>
+        )}
+
+        {compareModalOpen && state.compareList.length === 2 && (
+          <div 
+            style={{ position: 'fixed', inset: 0, zIndex: 10000, background: 'rgba(0,0,0,0.85)', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}
+            onClick={() => setCompareModalOpen(false)}
+          >
+            {(() => {
+              const a = state.currentOutfits[state.compareList[0]];
+              const b = state.currentOutfits[state.compareList[1]];
+              return (
+                <div 
+                  style={{ background: 'var(--page-bg)', width: '100%', maxWidth: '900px', borderRadius: '24px', overflow: 'hidden', display: 'flex', flexDirection: 'column', maxHeight: '90vh' }}
+                  onClick={e => e.stopPropagation()}
+                >
+                  <div style={{ padding: '20px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--card-bg)' }}>
+                    <h3 style={{ margin: 0, fontSize: '1.4rem', fontFamily: 'var(--font-display)' }}>✨ AI Comparison Analysis</h3>
+                    <button onClick={() => setCompareModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'var(--ink)' }}>✕</button>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', overflowY: 'auto' }}>
+                    <div style={{ padding: '24px', borderRight: '1px solid var(--border)' }}>
+                      <div style={{ height: '260px', borderRadius: '12px', overflow: 'hidden', marginBottom: '20px', position: 'relative' }}>
+                        {a.image ? <img src={a.image} style={{width:'100%', height:'100%', objectFit:'cover', objectPosition:'top center'}}/> : <div style={{background:a.bg, width:'100%', height:'100%', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'4rem'}}>{a.emoji}</div>}
+                      </div>
+                      <h4 style={{ fontSize: '1.2rem', marginBottom: '8px', color: 'var(--ink)' }}>{a.name}</h4>
+                      <div style={{ fontSize: '0.9rem', color: 'var(--muted)', marginBottom: '20px' }}>{a.price}</div>
+                      
+                      <div style={{ marginBottom: '16px' }}>
+                        <strong style={{ display: 'block', fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--emerald)', marginBottom: '4px' }}>Style Benefit</strong>
+                        <p style={{ fontSize: '0.95rem', lineHeight: '1.5' }}>{a.why}</p>
+                      </div>
+                      <div style={{ marginBottom: '16px' }}>
+                        <strong style={{ display: 'block', fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--emerald)', marginBottom: '4px' }}>Occasion</strong>
+                        <p style={{ fontSize: '0.95rem', lineHeight: '1.5' }}>{getOccasion(a.category || 'casual')}</p>
+                      </div>
+                      <div>
+                        <strong style={{ display: 'block', fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--emerald)', marginBottom: '4px' }}>Environment</strong>
+                        <p style={{ fontSize: '0.95rem', lineHeight: '1.5' }}>{getEnvironment(a.category || 'casual')}</p>
+                      </div>
+                    </div>
+
+                    <div style={{ padding: '24px' }}>
+                      <div style={{ height: '260px', borderRadius: '12px', overflow: 'hidden', marginBottom: '20px', position: 'relative' }}>
+                        {b.image ? <img src={b.image} style={{width:'100%', height:'100%', objectFit:'cover', objectPosition:'top center'}}/> : <div style={{background:b.bg, width:'100%', height:'100%', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'4rem'}}>{b.emoji}</div>}
+                      </div>
+                      <h4 style={{ fontSize: '1.2rem', marginBottom: '8px', color: 'var(--ink)' }}>{b.name}</h4>
+                      <div style={{ fontSize: '0.9rem', color: 'var(--muted)', marginBottom: '20px' }}>{b.price}</div>
+                      
+                      <div style={{ marginBottom: '16px' }}>
+                        <strong style={{ display: 'block', fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--terra)', marginBottom: '4px' }}>Style Benefit</strong>
+                        <p style={{ fontSize: '0.95rem', lineHeight: '1.5' }}>{b.why}</p>
+                      </div>
+                      <div style={{ marginBottom: '16px' }}>
+                        <strong style={{ display: 'block', fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--terra)', marginBottom: '4px' }}>Occasion</strong>
+                        <p style={{ fontSize: '0.95rem', lineHeight: '1.5' }}>{getOccasion(b.category || 'casual')}</p>
+                      </div>
+                      <div>
+                        <strong style={{ display: 'block', fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--terra)', marginBottom: '4px' }}>Environment</strong>
+                        <p style={{ fontSize: '0.95rem', lineHeight: '1.5' }}>{getEnvironment(b.category || 'casual')}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })()}
           </div>
         )}
 
