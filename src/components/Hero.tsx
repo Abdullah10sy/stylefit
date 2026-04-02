@@ -74,8 +74,8 @@ export function Footer() {
           <div className="logo"><span className="logo-icon">✦</span><span>StyleAi</span></div>
           <p>Dressing well is a form of good manners. We make it effortless.</p>
           <div className="social-links">
-            <a href="https://x.com/real_styleai?s=21&t=X3X3X3X3X3X3X3X3X3X3X3X3X3X3X3X3" className="social-link">𝕏</a>
-            <a href="" className="social-link">📌</a>
+            <a href="https://x.com/realstyleai?s=21" className="social-link">𝕏</a>
+            <a href="https://pin.it/2peyEiS5d" className="social-link">📌</a>
             <a href="https://www.instagram.com/real_styleai?igsh=MWMwNWpsOWw1Znc0Yg==" className="social-link">📷</a>
           </div>
         </div>
