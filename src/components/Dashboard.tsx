@@ -7,6 +7,10 @@ export function Dashboard() {
   const { state, setState, showSection, toast } = useStore();
   const [loading, setLoading] = useState(false);
 
+  const selectGender = (g: string) => {
+    setState((s) => ({ ...s, gender: g as "men" | "women", currentOutfits: [] }));
+  };
+
   const selectBodyType = (type: string) => {
     setState((s) => ({ ...s, bodyType: type }));
   };
@@ -26,6 +30,10 @@ export function Dashboard() {
   };
 
   const generateOutfits = async () => {
+    if (!state.gender) {
+      toast("⚠️ Please select who you are shopping for");
+      return;
+    }
     if (!state.bodyType) {
       toast("⚠️ Please select your body type");
       return;
@@ -38,13 +46,15 @@ export function Dashboard() {
 
     const outfits: any[] = [];
     state.categories.forEach((cat) => {
-      const catData = (OUTFITS as any)[cat];
+      const gData = (OUTFITS as any)[state.gender!];
+      if (!gData) return;
+      const catData = gData[cat];
       if (!catData) return;
       const bodyOutfits = catData[state.bodyType!] || catData.medium || [];
       bodyOutfits.forEach((o: any) => outfits.push({ ...o, category: cat }));
     });
 
-    const finalOutfits = outfits.length > 0 ? outfits : Object.values((OUTFITS as any).casual.medium).map((o: any) => ({ ...o, category: "casual" }));
+    const finalOutfits = outfits.length > 0 ? outfits : Object.values((OUTFITS as any)[state.gender!].casual.medium).map((o: any) => ({ ...o, category: "casual" }));
 
     setState((s) => ({ ...s, currentOutfits: finalOutfits }));
     setLoading(false);
@@ -60,6 +70,16 @@ export function Dashboard() {
         </div>
         <div className="dashboard-form">
           <div className="form-section">
+            <span className="form-label">Who are you shopping for?</span>
+            <div className="body-type-grid" style={{ gridTemplateColumns: '1fr 1fr', marginBottom: '24px' }}>
+              {['men', 'women'].map((g) => (
+                <div key={g} className={`body-card ${state.gender === g ? 'selected' : ''}`} onClick={() => selectGender(g)}>
+                  <div style={{fontSize: '2rem', marginBottom: '8px'}}>{g === 'men' ? '👨' : '👩'}</div>
+                  <span className="body-name">{g === 'men' ? 'Men' : 'Women'}</span>
+                </div>
+              ))}
+            </div>
+            
             <span className="form-label">Your Body Type</span>
             <div className="body-type-grid">
               {['slim', 'medium', 'chubby'].map((bt) => (

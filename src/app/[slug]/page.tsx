@@ -108,6 +108,28 @@ export default async function GenericContentPage({ params }: Props) {
           {data.content}
         </p>
 
+        {slug === "how-it-works" && (
+          <div style={{
+            maxWidth: "600px",
+            margin: "0 auto 48px",
+            padding: "32px 48px",
+            background: "linear-gradient(135deg, rgba(13, 92, 75, 0.05), transparent)",
+            borderLeft: "4px solid var(--emerald)",
+            borderRadius: "0 16px 16px 0",
+            fontStyle: "italic",
+            fontSize: "1.35rem",
+            color: "var(--ink)",
+            lineHeight: "1.8",
+            textAlign: "left",
+            fontFamily: "var(--font-display)"
+          }}>
+            "Body types were never real…<br />
+            they were just labels the world created.<br />
+            You were never meant to fit into them —<br />
+            you were meant to live freely in your own skin."
+          </div>
+        )}
+
         {slug === "contact" && (
           <form
             action="https://formsubmit.co/abuu10syd@gmail.com"

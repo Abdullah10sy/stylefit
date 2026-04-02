@@ -1,10 +1,13 @@
 "use client";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { Outfit } from "@/lib/data";
 
 interface State {
   user: any;
   phone: string | null;
+  gender: "men" | "women" | null;
   bodyType: string | null;
   heightCm: number;
   unit: "cm" | "ft";
@@ -33,6 +36,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<State>({
     user: null,
     phone: null,
+    gender: null,
     bodyType: null,
     heightCm: 170,
     unit: "cm",
@@ -59,6 +63,16 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       cart: cart ? JSON.parse(cart) : [],
       isDark: theme === "dark",
     }));
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setState((s) => ({ ...s, user: { email: user.email, uid: user.uid, phone: null } }));
+      } else {
+        setState((s) => ({ ...s, user: null }));
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const showSection = (id: string) => {
