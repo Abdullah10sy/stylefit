@@ -66,7 +66,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setState((s) => ({ ...s, user: { email: user.email, uid: user.uid, phone: null } }));
+        setState((s) => ({
+          ...s,
+          user: { email: user.email, uid: user.uid, phone: null },
+          activeSection: s.activeSection === 'login' ? 'dashboard' : s.activeSection
+        }));
       } else {
         setState((s) => ({ ...s, user: null }));
       }

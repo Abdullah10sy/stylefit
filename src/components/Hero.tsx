@@ -3,7 +3,8 @@ import React from 'react';
 import { useStore } from "@/app/store";
 
 export function Hero() {
-  const { showSection } = useStore();
+  const { state, showSection } = useStore();
+  const loggedIn = !!state.user;
 
   return (
     <section className="section" id="hero">
@@ -31,12 +32,12 @@ export function Hero() {
         <h1 className="hero-title">Outfits That Fit<br /><em>Your Body,</em><br /><span className="title-outline">Perfectly.</span></h1>
         <p className="hero-sub">Stop guessing what to wear. Our AI analyzes your body type and height to recommend outfits that flatter, elevate, and express who you truly are.</p>
         <div className="hero-cta">
-          <button className="btn-hero" onClick={() => showSection('login')}>
-            <span>Get Started</span>
+          <button className="btn-hero" onClick={() => showSection(loggedIn ? 'dashboard' : 'login')}>
+            <span>{loggedIn ? 'Go to Dashboard' : 'Get Started'}</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
           </button>
         </div>
-        <p className="hero-note">Join in seconds with Google or Email.</p>
+        {!loggedIn && <p className="hero-note">Join in seconds with Google or Email.</p>}
         <div className="hero-stats">
           <div className="stat"><span className="stat-num">50K+</span><span className="stat-label">Styled Users</span></div>
           <div className="stat-divider"></div>

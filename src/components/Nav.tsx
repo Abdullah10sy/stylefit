@@ -1,5 +1,7 @@
 "use client";
 import { useStore } from "@/app/store";
+import { auth } from "@/lib/firebase";
+import { signOut } from "firebase/auth";
 
 export function Nav() {
   const { state, setState, showSection, toast } = useStore();
@@ -12,7 +14,12 @@ export function Nav() {
     localStorage.setItem('sf_theme', newDark ? 'dark' : 'light');
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch(err) {
+      console.error("Sign out error", err);
+    }
     setState((s) => ({ ...s, user: null }));
     showSection('hero');
     toast('👋 Signed out successfully');

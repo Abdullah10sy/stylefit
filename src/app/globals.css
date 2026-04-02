@@ -3600,3 +3600,90 @@ em {
     grid-template-columns: 1fr;
   }
 }
+
+/* --- ENHANCED MOBILE RESPONSIVE FIXES --- */
+@media (max-width: 850px) {
+  /* Navigation Fixes */
+  .nav-inner { 
+    height: auto; 
+    min-height: 66px; 
+    padding: 10px 0; 
+    flex-wrap: wrap; 
+  }
+  .nav-links { 
+    order: 3; 
+    flex-basis: 100%; 
+    justify-content: flex-start; 
+    margin-top: 10px; 
+    overflow-x: auto; 
+    padding-bottom: 5px; 
+  }
+  .nav-actions { 
+    order: 2; 
+    margin-left: auto; 
+  }
+  .nav-link { 
+    font-size: 0.8rem; 
+    padding: 6px 10px; 
+    white-space: nowrap; 
+  }
+  
+  /* Hide text buttons to save space */
+  #nav-right .btn-ghost { display: none; }
+  .theme-toggle { padding: 5px 8px; font-size: 0.9rem; }
+  
+  /* Hero Fixes */
+  #hero { 
+    grid-template-columns: 1fr; 
+    padding: 130px 24px 48px; 
+    text-align: center; 
+    gap: 30px;
+  }
+  .hero-title { 
+    font-size: clamp(2.5rem, 8vw, 3.5rem); 
+  }
+  .hero-sub { 
+    margin-left: auto; 
+    margin-right: auto; 
+    font-size: 0.95rem; 
+  }
+  .hero-cta { justify-content: center; }
+  .hero-stats { 
+    justify-content: center; 
+    gap: 16px; 
+    flex-wrap: wrap; 
+  }
+  
+  /* Visual Scale */
+  .hero-visual { padding-top: 20px; }
+  .fashion-cards { 
+    transform: scale(0.9); 
+    transform-origin: top center; 
+    margin: 0 auto; 
+  }
+
+  /* Footer Layout Fix */
+  .footer-links {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fashion-cards { 
+    transform: scale(0.75); 
+  }
+  .hero-title { 
+    font-size: 2.8rem;
+  }
+  #nav-right .btn-primary { 
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+  .logo span:last-child {
+    display: none;
+  }
+  .logo-icon {
+    font-size: 1.8rem;
+  }
+}

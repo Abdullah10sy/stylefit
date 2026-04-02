@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 const PAGE_DATA: Record<string, { title: string; content: string }> = {
   "how-it-works": {
     title: "How It Works",
-    content: "Our AI asks for your body type, height, and style preferences. It then analyzes millions of fashion combinations to recommend outfits that flatter your unique proportions perfectly."
+    content: "Our AI asks for your body type and style preferences. It then analyzes millions of fashion combinations to recommend outfits that flatter your unique proportions perfectly."
   },
   "style-guide": {
     title: "Style Guide",
