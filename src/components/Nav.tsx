@@ -34,9 +34,9 @@ export function Nav() {
         </div>
         <div className="nav-links" id="nav-links">
           <button className="nav-link" onClick={() => showSection('hero')}>Home</button>
+          <button className="nav-link" onClick={() => showSection('dashboard')}>Dashboard</button>
           {loggedIn && (
             <>
-              <button className="nav-link" onClick={() => showSection('dashboard')}>Dashboard</button>
               <button className="nav-link" onClick={() => showSection('results')}>My Outfits</button>
               <button className="nav-link" onClick={() => showSection('saved')}>
                 Saved {state.savedLooks.length > 0 && <span className="saved-count-badge">{state.savedLooks.length}</span>}
